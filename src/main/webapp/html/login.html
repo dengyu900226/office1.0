@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)http://219.143.38.251/yusys/ -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>资源管理系统</title>
+    <script type="text/javascript" src="../js/vue.min.js"></script>
+    <script type="text/javascript" src="../js/vue-resource.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js" ></script>
+    <script type="text/javascript" src="../js/login-js.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="SHORTCUT ICON" href="../images/office.ico">
+</head>
+<body style="background-image: url('../images/2019.jpg'); background-repeat: no-repeat;background-size: 100% 100%;">
+<!--<div id="app">-->
+    <!--<p>{{ message }}</p>-->
+    <!--<input type="button" value="点一下试试" onclick="postV.post()"/>-->
+<!--</div>-->
+<!--<canvas id=c style="position:absolute;z-index:-2"></canvas>-->
+<div class="research-logo-all">
+    <div class="research-logo"></div>
+    <ul class="research-user-password">
+        <li class="research-title">农信项目组管理系统</li>
+        <li class="research-user">
+            <i class="user"></i>
+            <input type="text" id="loginname" value="" placeholder="请输入用户名"
+                   onfocus="if(this.placeholder==&#39;请输入用户名&#39;)this.placeholder =&#39;&#39;"
+                   onblur="if(this.placeholder==&#39;&#39;)this.placeholder=&#39;请输入用户名&#39;">
+            <span class="research-del"></span>
+        </li>
+        <li class="research-password">
+            <i class="password"></i>
+            <input type="password" id="password" value="" placeholder="请输入密码"
+                   onfocus="if(this.placeholder==&#39;请输入密码&#39;)this.placeholder =&#39;&#39;"
+                   onblur="if(this.placeholder==&#39;&#39;)this.placeholder=&#39;请输入密码&#39; ">
+            <span class="research-del"></span>
+        </li>
+        <li class="research-code">
+            <i class="code"></i>
+            <input type="text" id="checkcode" placeholder="请输入验证码"
+                   onfocus="if(this.placeholder==&#39;请输入验证码&#39;)this.placeholder =&#39;&#39;"
+                   onblur="if(this.placeholder==&#39;&#39;)this.placeholder=&#39;请输入验证码&#39;">
+            <span class="research-del"></span>
+            <span class="research-code-img"><img id="createCheckCode" alt="点击刷新"
+                                                 src="../images/PictureCheckCode.jpeg"
+                                                 onclick="myReload();"></span>
+        </li>
+        <li class="research-error-prompt"><i></i>
+            <p></p></li>
+        <li class="research-btn">
+            <button id="login_btn">登 录</button>
+        </li>
+        <li class="research-forget"><a href="http://219.143.38.251/yusys/forgetPassword.html">忘记密码？</a></li>
+    </ul>
+</div>
+<div id="container">
+    <div id="output">
+        <canvas width="1536" height="422" style="display: block;"></canvas>
+    </div>
+</div>
+<div class="research-footer">版权所有：农信综合前端项目组 Copyright © 2018-2022 Zjrc Co., Ltd. All Rights Reserved.</div>
+<script>
+    var postV = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello 郑方远!'
+        },
+        methods: {
+            post: function () {
+                this.$http.post('https://www.baidu.com', {name: "郑方远"}, {emulateJSON: false}).then(function (res) {
+                    alert("成功" + res.status);
+                }, function (res) {
+                    alert("失败" + res.body);
+                });
+            }
+        }
+    })
+</script>
+<script type="text/javascript"  src="../js/yanhua.js">
+</script>
+</body>
+</html>

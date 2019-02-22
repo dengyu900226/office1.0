@@ -1,0 +1,145 @@
+@CHARSET "UTF-8";
+*{margin:0;padding:0;}
+html {height:100%;}
+body {font-family:"微软雅黑", arial;font-size:12px;background:#f8f8f8;height:100% !important;min-width:1000px;min-height:580px;overflow:auto;position:relative;}
+ul,li {list-style:none;vertical-align:bottom;}
+a {color:#000;text-decoration:none;}
+a:hover {color:#c00;text-decoration:underline;}
+input {-webkit-appearance:none;outline:none;}
+/*背景*/
+#container {position:absolute;height:61.8%;width:100%;}
+#output {width:100%;height:100%;}
+/*清除谷歌浏览器下的input叉号*/
+input::-webkit-search-cancel-button {display:none;}
+/*清除IE下的input叉号*/
+input::-ms-clear{display:none;}
+/*清除IE下的input眼睛*/
+input::-ms-reveal{display:none;}
+/*全部内容*/
+.research-logo-all {width:360px;height:485px;position:absolute;top:50%;left:50%;margin:-242px 0 0 -180px;z-index:99;}
+/*登录LOGO*/
+.research-logo {width:256px;height:84px;position:absolute;top:0;left:50%;margin:0 0 0 -128px;color:#fff;background:url(../../images/main/login_logo.png) no-repeat;overflow:hidden;}
+/*用户框+密码框*/
+.research-user-password {width:332px;border:1px solid #cdcdcd;background:#fff;position:absolute;top:140px;padding:20px 14px 16px 14px;}
+	.research-user-password li {height:38px;padding:6px;overflow:hidden;}
+		.research-user-password li input {width:243px;height:20px;border:1px solid #cdcdcd;font:16px/20px "微软雅黑", arial;padding:8px 35px 8px 40px;outline:none;border-radius:0;overflow:hidden;}
+		/*标题*/
+		.research-user-password .research-title {font-size:26px;height:30px;line-height:30px;margin-bottom:14px;text-align:center;overflow:hidden;}
+		.research-user-password .research-user, .research-user-password .research-password, .research-user-password .research-code {position:relative;}
+			/*图标-人物-密码-验证码*/
+			.research-user-password .research-user i, .research-user-password .research-password i, .research-user-password .research-code i {position:absolute;top:7px;left:7px;width:36px;height:36px;line-height:36px;text-align:center;display:block;background:url(../../images/main/icon_yanfa.png) no-repeat;overflow:hidden;}
+				.research-user-password .research-user .user {background-position:6px -29px;}
+				.research-user-password .research-password .password {background-position:-37px -29px;}
+				.research-user-password .research-code .code {background-position:-88px -29px;}
+		.research-user-password .research-code input {width:177px;padding-right:101px;}
+		.research-user-password .research-code .research-code-img {position:absolute;right:10px;top:10px;}
+			.research-user-password .research-code .research-code-img img {width:90px;height:30px;}
+	/*选中填写内容*/
+	.research-user-password .select-open {}
+		.research-user-password .select-open input {border:1px solid #007aff;box-shadow:0 0 5px #00a2eb;/*-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 3px rgba(102, 175, 233, .6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 3px rgba(102, 175, 233, .6);*/}
+		.research-user-password .select-open .user {background-position:6px -75px;}
+		.research-user-password .select-open .password {background-position:-37px -75px;}
+		.research-user-password .select-open .code {background-position:-88px -75px;}
+		/*登录按钮*/
+		.research-user-password .research-btn {height:36px;margin-bottom:15px;}
+			.research-user-password .research-btn button {width:320px;height:36px;font:16px/36px "微软雅黑", arial;color:#fff;background-color:#007aff;border-color:#007aff;outline:none;display:inline-block;text-align:center;white-space:nowrap;vertical-align:middle;cursor:pointer;border:1px solid transparent;outline:none;}
+				.research-user-password .research-btn button:focus, .research-user-password .research-btn button.focus {color:#fff;background-color:#008bc9;border-color:#008bc9;outline:none;}
+				.research-user-password .research-btn button:hover {color:#fff;background-color:#008bc9;border-color:#008bc9;}
+				.research-user-password .research-btn button:active, .research-user-password .research-btn button.active {color:#fff;background-color:#008bc9;border-color:#008bc9;outline:none;}
+		/*忘记密码*/
+		.research-user-password .research-forget {color:#606060;height:14px;line-height:14px;overflow:hidden;text-align:right;margin:-5px 0 0 0;}
+		/*错误提示*/
+		.research-user-password .research-error-prompt {color:#c3272b;height:14px;line-height:14px;overflow:hidden;display:none;}
+			.research-user-password .research-error-prompt i {position:static;width:14px;height:14px;display:block;float:left;background:url(../../images/main/icon_yanfa.png) no-repeat -226px -152px;margin:2px 3px 0 0;}
+				.research-user-password .research-error-prompt {color:#c3272b;height:auto;line-height:16px;background:#fff;overflow:hidden;display:none;}
+					.research-user-password .research-error-prompt a {color:#c3272b;}
+				.research-user-password .research-error-prompt p {margin-left:17px;}
+		.research-user-password .error-open {}
+			.research-user-password .error-open input {border:1px solid #c3272b;color:#c3272b;}
+			.research-user-password .error-open .research-error {display:block;}
+		/*删除图标*/
+		.research-user-password .research-del {width:13px;height:13px;overflow:hidden;display:block;position:absolute;top:19px;right:19px;background:url(../../images/main/icon_yanfa.png) no-repeat;background-position:-21px -186px;display:none;}
+			.research-user-password .research-del:hover {background-position:-44px -186px;cursor:pointer;}
+		.research-code .research-del {right:108px;}
+	.research-user-password .open {display:block;}
+	/*placeholder设置颜色*/
+	input::-webkit-input-placeholder {color:#d3d3d3 !important;}
+	input:-moz-placeholder {color:#d3d3d3 !important;}
+	input::-moz-placeholder {color:#d3d3d3 !important;}
+	input:-ms-input-placeholder {color:#d3d3d3 !important;}
+/*版权信息*/
+.research-footer {width:100%;height:16px;line-height:16px;color:#606060;position:absolute;bottom:10px;left:0;text-align:center;overflow:hidden;}
+/********************忘记密码页面********************/
+.research-body {background:#f8f8f8;}
+/*LOGO-重置密码-登录*/
+.forgetpassword-head {background-color:#007aff;height:30px;color:#fff;padding:15px;}
+	.forgetpassword-logo {float:left;height:30px;overflow:hidden;}
+		.forgetpassword-logo img, .forgetpassword-logo span {float:left;}
+			.forgetpassword-logo img {margin-right:15px;}
+			.forgetpassword-logo span {padding-left:15px;border-left:1px solid rgba(255,255,255,.5);overflow:hidden;}
+		.forgetpassword-logo span, .forgetpassword-login {height:20px;font-size:20px;line-height:20px;margin:5px 0;}
+			.forgetpassword-login a {color:#fff;}
+				.forgetpassword-login a:hover {cursor:pointer;text-decoration:none;opacity:.5;filter:alpha(opacity=50);}
+	.forgetpassword-login {float:right;font-size:18px;}
+/*步骤*/
+.forgetpassword-step-bg {width:560px;height:270px;min-height:270px;padding:0;position:absolute;top:50%;left:50%;margin:-135px 0 0 -230px;}
+	.forgetpassword-step {width:560px;height:50px;margin-bottom:50px;overflow:hidden;}
+		.forgetpassword-step li {width:170px;height:50px;float:left;display:inline;position:relative;}
+			.forgetpassword-step li span {width:50px;height:50px;float:left;display:block;}
+				.forgetpassword-step li span i {width:30px;height:30px;display:block;margin:0 auto;background-color:#cdcdcd;color:#fff;font-size:14px;line-height:30px;font-style:normal;font-weight:bold;text-align:center;-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;}
+				.forgetpassword-step li span h3 {width:50px;height:20px;font-size:12px;line-height:20px;color:#606060;display:block;font-weight:normal;text-align:center;}
+			.forgetpassword-step li .step-line {width:110px;height:3px;float:left;background-color:#cdcdcd;position:absolute;top:15px;left:55px;overflow:hidden;}
+		.forgetpassword-step .step-last {width:50px;}
+	/*当前步骤*/
+	.forgetpassword-step .current {}
+		.forgetpassword-step .current span i {background-color:#007aff;}
+		.forgetpassword-step .current span h3 {color:#007aff;}
+		.forgetpassword-step .current .step-line {background-color:#007aff;background-image:url(../../images/main/icon_yanfa.png);background-repeat:no-repeat;background-position:0 -409px;}
+	/*上一步*/
+	.forgetpassword-step .before {}
+		.forgetpassword-step .before span i {background-color:#a2cfff;}
+		.forgetpassword-step .before span h3 {color:#a2cfff;}
+		.forgetpassword-step .before .step-line {background:none;background-color:#a2cfff;}
+	/*预留手机号*/
+	.forgetpassword-content .forgetpassword-input .forgetpassword-reserve {height:18px;line-height:18px;padding:0;margin:0;text-align:right;color:#606060;}
+		.forgetpassword-content .forgetpassword-input .forgetpassword-reserve em {font-style:normal;font-weight:bold;}
+/*输入框*/
+.forgetpassword-content {width:350px;overflow:hidden;margin:0 auto;display:none;}
+	.forgetpassword-content.open {display:block;}
+		.content-hei {hieght:238px;}
+	.forgetpassword-input {overflow:hidden;}
+		.forgetpassword-input li {height:32px;overflow:hidden;padding:5px 5px 15px 0;}
+			.forgetpassword-input li h3 {width:80px;height:32px;font-size:14px;line-height:32px;font-weight:normal;text-align:right;float:left;padding-right:5px;}
+			.forgetpassword-input li .form-control {display:block;width:100%;height:32px;padding:2px 5px;font-size:14px;line-height:28px;color:#555;background-color:#fff;background-image:none;border:1px solid #ccc;border-radius:0;border:1px solid #cdcdcd;box-sizing:border-box;-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, .075);box-shadow:inset 0 1px 1px rgba(0, 0, 0, .075);-webkit-transition:border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;-o-transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;}
+				.forgetpassword-input li .form-control:focus {border-color:#007aff;outline:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);}
+					.forgetpassword-input li .form-control {float:left;width:260px;}
+		.forgetpassword-btn {margin:5px 5px 0 0;text-align:right;overflow:hidden;}
+	/*发送验证吗*/
+	.forgetpassword-input .forgetpassword-time {}
+		.forgetpassword-input .forgetpassword-time .form-control {float:left;width:154px;margin-right:4px;}
+		.forgetpassword-input .forgetpassword-time .btn {width:102px;height:32px;float:left;padding:6px 5px 5px 5px;background:#fff;color:#606060;border:1px solid #cdcdcd;text-align:center;}
+			.forgetpassword-input .forgetpassword-time .btn:hover {background:#fff;border:1px solid #cdcdcd;color:#606060;}
+			.forgetpassword-input .forgetpassword-time input[disabled] {cursor:default;background:#cdcdcd;}
+				.forgetpassword-input .forgetpassword-time input[disabled]:hover {background:#cdcdcd;border:1px solid #cdcdcd;color:#606060;}
+	/*立即返回登录页*/
+	.forgetpassword-content span, .forgetpassword-content a {display:block;font-size:14px;text-align:center;}
+		.forgetpassword-content span {height:22px;font-size:16px;line-height:22px;margin:30px 0 5px 0;}
+		.forgetpassword-content a {width:110px;margin:0 auto;color:#c00;text-decoration:underline;}
+	/*错误信息提示*/
+	.forgetpassword-input .forgetpassword-error {width:260px;height:16px;line-height:16px;color:#c3272b;padding:0 0 0 85px;margin:-6px 5px 5px 0;overflow:hidden;display:none;}
+		.forgetpassword-input .open {display:block;}
+		.forgetpassword-input .forgetpassword-error i {position:static;width:14px;height:14px;display:block;float:left;background:url(../../images/main/icon_yanfa.png) no-repeat -226px -152px;margin:1px 3px 0 0;}
+		.forgetpassword-input .forgetpassword-error p {margin-left:17px;}
+	/*满足要求*/
+	.forgetpassword-prompt {height:92px;margin-top:10px;overflow:hidden;}
+		.forgetpassword-prompt h2 {height:18px;font-size:12px;line-height:18px;font-weight:normal;color:#c3272b;margin-bottom:2px;overflow:hidden;}
+		.forgetpassword-prompt p {color:#606060;min-height:18px;font-size:12px;line-height:18px;}
+	/*时间倒计时*/
+	.forgetpassword-success em {font-weight:bold;font-style:normal;color:#c00;}
+/*按钮*/
+.btn {font-family:"微软雅黑", arial;padding:3px 14px;font-size:12px;color:#fff;background-color:#007aff;border-color:#007aff;display:inline-block;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;border:1px solid transparent;border-radius:0;}
+	.btn:focus, .btn.focus {color:#fff;background-color:#008bc9;border-color:#008bc9;}
+	.btn:hover {color:#fff;background-color:#008bc9;border-color:#008bc9;}
+	.btn:active, .btn.active, .open > .dropdown-toggle.btn-default {color:#fff;background-color:#008bc9;border-color:#008bc9;}
+/*禁止选择文字*/
+.forgetpassword-head, .forgetpassword-step {-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-khtml-user-select:none;}

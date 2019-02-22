@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/vue.min.js"></script>
+    <script type="text/javascript" src="../js/vue-resource.min.js"></script>
+</head>
+<body style="background: #ccc;">
+<div style="text-align: center;">
+    <h1 style="display:inline-block;">
+        <select id="dataResouce" style="width:120px;height:50px;font-size: 28px;background: #ccc;font-weight: bold;" required>
+            <option value="middle" >middle</option>
+            <option value="core">core</option>
+        </select>
+        .xml数据源上传</h1>
+    <h2 id="resultmsg" style="display:inline-block;color:red">{{msg}}</h2>
+</div>
+    <div align="center" style="width:100%;height:500px" >
+        <textarea id="xmlcontent" style="width:80%;height:100%;resize:none;font-size: 18px;" required></textarea>
+    </div>
+        <p align="center">
+            <input  type="submit" value="上传" style="height: 25px;width: 60px;margin-right: 20px" onclick="resultmsg.post()"/>
+            <input  type="submit" value="重置" style="height: 25px;width: 60px" onclick="clearText()"/>
+        </p>
+</body>
+<script type="text/javascript">
+    // var a = new FormData(); 上传文件用
+    var resultmsg  = new Vue({
+        el:'#resultmsg',
+        data:{
+            msg:''
+        },
+        methods: {
+            post:function () {
+                if(null == $('#xmlcontent').val() || ""==$.trim($('#xmlcontent').val())){
+                    alert("上传内容不能为空");
+                    return
+                }
+                this.$http.post('/zjrc/fileUpload',
+                    {name:$('#dataResouce').val(),content:$.trim($('#xmlcontent').val())},
+                    {emulateJSON: true}).then(function (res) {
+                    this.msg =res.bodyText;
+                },function (res) {
+                    this.msg = '失败';
+                });
+            }
+        }
+    })
+    function clearText() {
+        document.getElementById("xmlcontent").value="";
+        resultmsg.msg = '';
+    }
+
+</script>
+</html>

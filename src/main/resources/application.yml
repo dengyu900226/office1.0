@@ -1,0 +1,52 @@
+server:
+  port: 8090
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+    static-path-pattern: /**
+  resources:
+    static-locations: /html/
+#    /css/,/js/,/images/
+  datasource:
+    name: office
+    url: jdbc:mysql://127.0.0.1:3306/office
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    favicon:
+      enabled: false
+  profiles:
+    path: ./config
+  servlet:
+    multipart:
+      # 上传文件总的最大值
+      max-request-size: 10MB
+      # 单个文件的最大值
+      max-file-size: 10MB
+#  application:
+#    name: office-eureka-zjrcu
+# 注册服务到中心
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8099/eureka/
+#  instance:
+#    lease-renewal-interval-in-seconds: 1
+#    lease-expiration-duration-in-seconds: 2
+
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#       图片音频上传路径配置(win系统自行变更本地路径)
+#web:
+#  upload:
+#    path:
+
+#logging:
+#  config: ${spring.profiles.path}/logback-spring.xml
+##  pattern:
+      ##    console: "%d{yyyy/MM/dd-HH:mm:ss}----[%thread]----%level----%logger-----%msg%n"
+    ###  path: C:\Users\syh\Desktop\
+    ##  file: C:\Users\syh\Desktop\app.log

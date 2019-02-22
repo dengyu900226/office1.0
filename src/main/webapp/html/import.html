@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <script src="../js/xlsx.full.min.js"></script>
+		<script src="../js/jquery.min.js"></script>
+        <script src="../js/jq-form.js"></script>
+        <script type="text/javascript" src="../js/vue.min.js"></script>
+        <script type="text/javascript" src="../js/vue-resource.min.js"></script>
+		<script>
+			 //设置多个表格可编辑
+			 function EditTables(){  
+				 for(var i=0;i<arguments.length;i++){  
+					SetTableCanEdit(arguments[i]);  
+				 }  
+			 }  
+      
+			//设置表格是可编辑的  
+			 function SetTableCanEdit(table){  
+				 for(var i=1; i<table.rows.length;i++){  
+				 SetRowCanEdit(table.rows[i]);  
+					}  
+				}  
+	function SetRowCanEdit(row){  
+		for(var j=0;j<row.cells.length; j++){  
+      
+			//如果当前单元格指定了编辑类型，则表示允许编辑  
+			 var editType = row.cells[j].getAttribute("EditType");  
+				if(!editType){  
+				//如果当前单元格没有指定，则查看当前列是否指定  
+				editType = row.parentNode.rows[0].cells[j].getAttribute("EditType");  
+				}  
+				 if(editType){  
+				 row.cells[j].onclick = function (){  
+					EditCell(this);  
+					}  
+				 } 
+				}
+	}
+	 //设置指定单元格可编辑  
+    function EditCell(element, editType){  
+      
+    var editType = element.getAttribute("EditType");  
+    if(!editType){  
+       //如果当前单元格没有指定，则查看当前列是否指定  
+       editType = element.parentNode.parentNode.rows[0].cells[element.cellIndex].getAttribute("EditType");  
+    }  
+      
+    switch(editType){  
+       case "TextBox":  
+        CreateTextBox(element, element.innerHTML);  
+        break;
+       case "DropDownList":  
+        CreateDropDownList(element);  
+        break;  
+       default:  
+        break;  
+    }  
+    }  
+
+	 //为单元格创建可编辑输入框  
+    function CreateTextBox(element, value){  
+    //检查编辑状态，如果已经是编辑状态，跳过  
+    var editState = element.getAttribute("EditState");  
+    if(editState != "true"){  
+       //创建文本框  
+       var textBox = document.createElement("INPUT");  
+       textBox.type = "text";  
+       textBox.className="EditCell_TextBox";  
+        
+        
+       //设置文本框当前值  
+       if(!value){  
+        value = element.getAttribute("Value");  
+       }    
+       textBox.value = value;  
+        
+       //设置文本框的失去焦点事件  
+       textBox.onblur = function (){  
+        CancelEditCell(this.parentNode, this.value);  
+       }  
+       //向当前单元格添加文本框  
+       ClearChild(element);  
+       element.appendChild(textBox);  
+       textBox.focus();  
+       textBox.select();  
+        
+       //改变状态变量  
+       element.setAttribute("EditState", "true");  
+       element.parentNode.parentNode.setAttribute("CurrentRow", element.parentNode.rowIndex);  
+    }  
+      
+    }
+             //为单元格创建选择框
+             function CreateDropDownList(element, value){
+                 //检查编辑状态，如果已经是编辑状态，跳过
+                 var editState = element.getAttribute("EditState");
+                 if(editState != "true"){
+                     //创建下接框
+                     var downList = document.createElement("Select");
+                     downList.className="EditCell_DropDownList";
+
+                     //添加列表项
+                     var items = element.getAttribute("DataItems");
+                     if(!items){
+                         items = element.parentNode.parentNode.rows[0].cells[element.cellIndex].getAttribute("DataItems");
+                     }
+
+                     if(items){
+                         items = eval("[" + items + "]");
+                         for(var i=0; i<items.length; i++){
+                             var oOption = document.createElement("OPTION");
+                             oOption.text = items[i].text;
+                             oOption.value = items[i].value;
+                             downList.options.add(oOption);
+                         }
+                     }
+
+                     //设置列表当前值
+                     if(!value){
+                         value = element.innerHTML;
+                     }
+                     downList.value = value;
+
+                     //设置创建下接框的失去焦点事件
+                     downList.onblur = function (){
+                         CancelEditCell(this.parentNode, this.value, this.options[this.selectedIndex].text);
+                     }
+
+                     //向当前单元格添加创建下接框
+                     // var dq = element.text;
+                     ClearChild(element);
+                     element.appendChild(downList);
+                     // downList.value = dq;
+                     downList.focus();
+
+                     //记录状态的改变
+                     element.setAttribute("EditState", "true");
+                     element.parentNode.parentNode.setAttribute("LastEditRow", element.parentNode.rowIndex);
+                 }
+
+             }
+             //取消单元格编辑状态
+             function CancelEditCell(element, value, text){
+                 element.setAttribute("Value", value);
+                 if(text){
+                     element.innerHTML = text;
+                 }else{
+                     element.innerHTML = value;
+                 }
+                 element.setAttribute("EditState", "false");
+
+                 //检查是否有公式计算
+                 // CheckExpression(element.parentNode);
+             }
+
+             //清空指定对象的所有字节点
+             function ClearChild(element){
+                 element.innerHTML = "";
+             }
+
+             //添加行
+             function AddRow(table){
+                 var lastRow = table.rows[table.rows.length-1];
+                 var newRow = lastRow.cloneNode(true);
+                 //计算新增加行的序号，需要引入jquery 的jar包
+                 // var startIndex = $.inArray(lastRow,table.rows);
+                 // var endIndex = table.rows;
+                 table.tBodies[0].appendChild(newRow);
+                 // newRow.cells[0].innerHTML=endIndex-startIndex;
+                 SetRowCanEdit(newRow);
+
+                 return newRow;
+
+             }
+
+
+        </script>
+        <style type="text/css">
+             table {
+                 font-family: verdana,arial,sans-serif;
+                 font-size:12px;
+             }
+             table td span {
+                 margin: 0 10px;
+                 cursor: pointer;
+                 color: #008cd5;
+             }
+             #addrow {
+                 display:none;
+                 border:1px solid black;
+                 height:40%;
+                 width:45%;
+                 position:absolute;/*让节点脱离文档流,我的理解就是,从页面上浮出来,不再按照文档其它内容布局*/
+                 top:24%;/*节点脱离了文档流,如果设置位置需要用top和left,right,bottom定位*/
+                 left:24%;
+                 z-index:1;/*个人理解为层级关系,由于这个节点要在顶部显示,所以这个值比其余节点的都大*/
+                 background: white;
+             }
+             input,label  {
+                 font-family: verdana,arial,sans-serif;
+                 font-size:12px;
+             }
+             /*#add td input{*/
+                 /*width: 100%;*/
+             /*}*/
+             #title
+             {
+                 background:white;
+                 width:100%;
+                 height:1.5em;
+             }
+             #title a
+             {
+                 float:right;
+             }
+             </style>
+
+        <style type="text/css">
+            .search {
+                width: 300px;
+                height: 20px;
+                border-radius: 18px;
+                outline: none;
+                border: 1px solid #ccc;
+                padding-left: 20px;
+                position: absolute;
+            }
+            .btn {
+                height: 20px;
+                width: 35px;
+                position: absolute;
+                background: url("../images/ser.png") no-repeat 1px 2px;
+                top: 9px;
+                left: 270px;
+                border: none;
+                outline: none;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+
+    <body>
+    <input type="button" onclick="openwin()" value="新增" style="width: 5%"/>
+    <input type="button" onclick="exportExcel()" value="导出EXCEL" />
+    <input type="text" class="search" placeholder="搜索">
+    <input type="button" name="" id="" class="btn">
+        <!--<input type="file" onchange="importf(this)" />-->
+		<table id="demo" border="1" bordercolor="#a0c6e5" style="border-collapse:collapse;">
+			 
+		</table>
+    <div id="addrow">
+        <div id="title" style="cursor:move;text-align:center;font-size:16px;font-weight:bold;height: 10%;position: relative;top: 2%;"  >新增
+            <!--<a href="javascript:hide()">关闭</a>-->
+        </div>
+        <div style=" line-height:24px;height: 86%;position: relative;left: 3%;top: 2%"  >
+            <form id="taskform" action="/data/addtask" method="post" style="left: 10%">
+                <table id="add" width="100%"  cellpadding="0" cellspacing="0" style="text-align: left;">
+                    <tr>
+                        <td ><label>需求单号:</label></td>
+                        <td><input type="text" name="xqid" maxlength="15" required="required" /><em style="color:red">*</em></td>
+                        <td><label>变更单号:</label></td>
+                        <td><input type="text" name="bgid" maxlength="6"/><em > </em></td>
+                    </tr>
+                    <tr>
+                        <td><label>任务名称:</label></td>
+                        <td colspan="3"><input type="text" name="taskname" maxlength="30" style="width: 85%" required="required"/><em style="color:red">*</em></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label>开始时间:</label></td>
+                        <td><input type="text" name="begintime" required="required" maxlength="8" placeholder="例20190101"/><em style="color:red">*</em></td>
+                        <td><label>结束时间:</label></td>
+                        <td><input type="text" name="endtime" maxlength="8" placeholder="例20190101"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>业务负责:</label></td>
+                        <td><input type="text" name="ywname" maxlength="10"/></td>
+                        <td><label>后台负责:</label></td>
+                        <td><input type="text" name="hdname" maxlength="10"/></td>
+                    </tr>
+                    <tr>
+                        <td><label>前端负责:</label></td>
+                        <td><input type="text" name="qdname" required="required" maxlength="10"/><i style="color:red">*</i></td>
+                        <td><label>任务状态:</label></td>
+                        <td><select  name="state" id="states" required="required"><option value="需求分析">需求分析</option><option value="待开发">待开发</option><option value="待联调">待联调</option></select><em style="color:red">*</em></td>
+                    </tr>
+                    <tr>
+                    <td> <label >需求问题:</label></td>
+                    <td colspan="3"><input type="text" name="xqquestion" maxlength="40" style="width: 84%"/></td>
+                    <td></td>
+                    <td></td>
+                </tr> <tr>
+                    <td><label >接口问题:</label></td>
+                    <td colspan="3"><input type="text" name="jkquestion" maxlength="10" style="width: 84%"/></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                    <tr>
+                        <td><label >测试问题:</label></td>
+                        <td colspan="3"><input type="text" name="csquestion" maxlength="20" style="width: 84%"/></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr >
+                        <td ></td>
+                        <td style="text-align: center;"><input type="submit" value="提交" /></td>
+                        <td  style="text-align: left;"><input type="button" value="取消" onclick="hide()"/></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+    </div>
+    <div id="over"></div>
+    </body>
+    <script>
+        var name,value,jsono;
+        var str=location.href; //取得整个地址栏
+        var num=str.indexOf("?")
+        var names=[];
+        str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+        var arr=str.split("&"); //各个参数放到数组里
+        for(var i=0;i < arr.length;i++){
+            num=arr[i].indexOf("=");
+            if(num>0){
+                name=arr[i].substring(0,num);
+                value=arr[i].substr(num+1);
+                names[i]=value;
+            }
+        }
+        Vue.http.post('/data/alltaskd',
+            {name:names[0]},
+            {emulateJSON: true}).then(function (res) {
+            var resdata = res.body;
+            jsono = resdata;
+            var str;
+            if(names[1] == '9999'){
+                str = "<th bgcolor='#EFEFEF' EditType='TextBox'>前端</th>";
+            }else{
+                str = "<th bgcolor='#EFEFEF' >前端</th>"
+            }
+            var DataItems = "{text:'待测试',value:'待测试'}," +
+                "{text:'一轮测试中',value:'一轮测试中'},{text:'验证测试中',value:'验证测试中'}," +
+                "{text:'待上线',value:'待上线'},{text:'已上线',value:'已上线'},{text:'关停',value:'关停'}," +
+                "{text:'暂缓测试',value:'暂缓测试'},{text:'待关停',value:'待关停'},{text:'需求分析',value:'需求分析'}," +
+                "{text:'开发中',value:'开发中'},{text:'待联调',value:'待联调'},{text:'联调中',value:'联调中'} ";
+            $("#demo").append("<tr><th bgcolor='#EFEFEF'>需求单号</th><th bgcolor='#EFEFEF'>变更单号</th>" +
+                "<th bgcolor='#EFEFEF'>任务名称</th>" +
+                str +
+                "<th bgcolor='#EFEFEF'  EditType='DropDownList' DataItems="+DataItems+">状态</th>" +
+                "<th bgcolor='#EFEFEF'  EditType='TextBox'>需求问题</th>" +
+                "<th bgcolor='#EFEFEF'  EditType='TextBox'>接口问题</th>" +
+                "<th bgcolor='#EFEFEF'  EditType='TextBox'>测试问题</th>" +
+                "<th bgcolor='#EFEFEF'  style='display:none;'>开始时间</th>" +
+                "<th bgcolor='#EFEFEF'  style='display:none;'>结束时间</th>" +
+                "<th bgcolor='#EFEFEF'  style='display:none;'>更新时间</th>" +
+                "<th bgcolor='#EFEFEF'  >操作</th>" +
+                "</tr>");
+            for (var i=0;i<resdata.length;i++){
+                var html = "";
+                var ids = "row"+i;
+                html+='<tr id= "'+ids+'">';
+                html+="<td bgcolor='#FFFFFF'><span onclick='showztsj(this)'>"+resdata[i].xqid+"</span></td>";
+                html+="<td bgcolor='#FFFFFF'>"+resdata[i].bgid+"</td>";
+                html+="<td bgcolor='#FFFFFF'>"+resdata[i].taskname+"</td>";
+                html+="<td bgcolor='#FFFFFF'>"+resdata[i].qdname+"</td>";
+                html+="<td bgcolor='#FFFFFF'>"+resdata[i].state+"</td>";
+                html+="<td bgcolor='#FFFFFF'>"+resdata[i].xqquestion+"</td>";
+                html+="<td bgcolor='#FFFFFF'>"+resdata[i].jkquestion+"</td>";
+                html+="<td bgcolor='#FFFFFF'>"+resdata[i].csquestion+"</td>";
+                html+="<td bgcolor='#FFFFFF' style='display:none;'>"+resdata[i].begintime+"</td>";
+                html+="<td bgcolor='#FFFFFF' style='display:none;'>"+resdata[i].endtime+"</td>";
+                html+="<td bgcolor='#FFFFFF' style='display:none;'>"+resdata[i].update_time+"</td>";
+                html+="<td bgcolor='#FFFFFF'><span onclick='update2taskd( "+i+" )'>更新</span></td>";
+                html+='</tr></br>';
+                $("#demo").append(html);
+            }
+            var tabProduct = document.getElementById("demo");
+            EditTables(tabProduct);
+        },function (res) {
+            alert("失败"+res);
+        });
+        var wopts = { bookType: 'xlsx', bookSST: false, type: 'binary' };
+        function saveAs(obj, fileName) {
+            var tmpa = document.createElement("a");
+            tmpa.download = fileName || "下载";
+            tmpa.href = URL.createObjectURL(obj); //绑定a标签
+            tmpa.click(); //模拟点击实现下载
+            setTimeout(function () { //延时释放
+                URL.revokeObjectURL(obj); //用URL.revokeObjectURL()来释放这个object URL
+            }, 100);
+        }
+        function s2ab(s) {
+            if (typeof ArrayBuffer !== 'undefined') {
+                var buf = new ArrayBuffer(s.length);
+                var view = new Uint8Array(buf);
+                for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+                return buf;
+            } else {
+                var buf = new Array(s.length);
+                for (var i = 0; i != s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+                return buf;
+            }
+        }
+        function exportExcel(){
+            var wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
+            // wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(jsono);//通过json_to_sheet转成单页(Sheet)数据
+            wb.Sheets['Sheet1'] = XLSX.utils.table_to_sheet($("#demo")[0]);
+            saveAs(new Blob([s2ab(XLSX.write(wb, wopts))], { type: "application/octet-stream" }), "2018年开发进度" + '.' + (wopts.bookType=="biff2"?"xls":wopts.bookType));
+        }
+        function showztsj(ele) {
+            window.open("tasktimeXY.html?valuedata="+ele.innerHTML, '任务进度表', 'height=550, width=1100, top=200, left=220, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+        }
+    </script>
+    <script>
+        function update2taskd(a){
+            var result = {};
+            var tds = $("#row"+a).find("td");
+            if (tds.length > 0) {
+                result["xqid"] = $(tds[0]).text();
+                result["xqquestion"] = $(tds[5]).text();
+                result["jkquestion"] = $(tds[6]).text();
+                result["csquestion"] = $(tds[7]).text();
+                result["state"] = $(tds[4]).text();
+                result["qdname"] = $(tds[3]).text();
+            }
+            Vue.http.post('/data/updateOneTask',{rowone:JSON.stringify(result)},{emulateJSON: true}).then(function (data){
+                alert("更新成功");
+            },function (res) {
+                alert("更新失败");
+            });
+        }
+    </script>
+    <script>
+        var x_max = $(window).width();
+        var y_max = $(window).height();
+        var div_width = $("#addrow").width() + 20;//20是边框
+        var div_height = $("#addrow").height() + 20;
+        var _x_max = x_max - div_width;//最大水平位置
+        var _y_max = y_max - div_height;//最大垂直位置
+        function openwin() {
+            var x = (x_max - div_width) / 2;//水平居中
+            var y = (y_max - div_height) / 2;//垂直居中
+            $("#addrow").css({"left": x + 'px',"top": y + 'px'});//设置初始位置,防止移动后关闭再打开位置在关闭时的位置
+            $("#addrow").css("display","block");
+            // $("#over").css("display","block");
+        }
+        function hide()
+        {
+            $("#addrow").css("display","none");
+            // $("#over").css("display","none");
+        }
+        $(document).ready(function(){
+            $("#title").mousedown(function(title){//title代表鼠标按下事件
+                var point_x = title.pageX;//鼠标横坐标,有资料说pageX和pageY是FF独有,不过经过测试chrome和IE8是可以支持的,其余的浏览器没有装,没测
+                var point_y = title.pageY;//鼠标纵坐标
+                var title_x = $(this).offset().left;//标题横坐标
+                var title_y = $(this).offset().top;//标题纵坐标
+                $(document).bind("mousemove",function(move){
+                    // $(this).css("cursor","move");
+                    var _point_x = move.pageX;//鼠标移动后的横坐标
+                    var _point_y = move.pageY;//鼠标移动后的纵坐标
+                    var _x = _point_x - point_x;//移动的水平距离
+                    var _y = _point_y - point_y;//移动的纵向距离
+                    // console.debug('水平位移: ' + _x + '垂直位移: ' + _y);
+                    var __x = _x + title_x;//窗口移动后的位置
+                    var __y = _y + title_y;//窗口移动后的位置
+                    __x > _x_max ? __x = _x_max : __x = __x;//水平位置最大为651像素
+                    __y > _y_max ?__y = _y_max : __y = __y;//垂直位置最大为300像素
+                    __x < 0 ? __x = 0 : __x = __x;//水平位置最小为0像素
+                    __y < 0 ?__y = 0 : __y = __y;//垂直位置最小为0像素
+                    // console.debug('标题X:' + title_x + '标题Y:' + title_y);
+                    $("#addrow").css({"left":__x,"top":__y});
+                });//绑定鼠标移动事件,这里绑定的是标题,但是如果移动到区域外的话会导致事件不触发
+                $(document).mouseup(function(){
+                    $(this).unbind("mousemove");//鼠标抬起,释放绑定,防止松开鼠标后,指针移动窗口跟着移动
+                });
+            });
+        });
+        $(document).ready(function() {
+            $('#taskform').ajaxForm({
+                // 用服务器返回的数据 更新 id为 htmlcssrain 的内容.
+                //     target: '#htmlOut',
+                success: function() {
+                    alert("新增成功");
+                    hide();
+                    location.reload(true);
+                },
+                error: function() {
+                    alert("新增失败");
+                }
+            });
+        });
+    </script>
+</html>

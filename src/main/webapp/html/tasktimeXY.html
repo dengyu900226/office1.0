@@ -1,0 +1,110 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="utf-8" />  
+    <title>任务进度表</title>
+    <link rel="SHORTCUT ICON" href="../images/office.ico">
+<script src="../js/echarts.common.min.js"></script>
+    <script type="text/javascript" src="../js/vue.min.js"></script>
+    <script type="text/javascript" src="../js/vue-resource.min.js"></script>
+</head>  
+<body>  
+        <div id="box" style="height:500px;width: 1000px;padding: 20px"></div>
+    <script>
+        var name;
+        var str=location.href; //取得整个地址栏
+        var num=str.indexOf("?")
+        var names=[];
+        str=str.substr(num+1); //取得所有参数   stringvar.substr(start [, length ]
+        var arr=str.split("&"); //各个参数放到数组里
+        for(var i=0;i < arr.length;i++){
+            num=arr[i].indexOf("=");
+            if(num>0){
+                name=arr[i].substring(0,num);
+                value=arr[i].substr(num+1);
+                names[i]=value;
+            }
+        }
+        var data ;
+        Vue.http.post('/data/state',
+            {xqid:names[0]},
+            {emulateJSON: true}).then(function (res) {
+            data = res.body;
+            var myChart = echarts.init(document.getElementById("box"));
+            var option = {
+                // 标题
+                title: {
+                    text: '任务进度表',
+                },
+                tooltip: {
+                    formatter: "{c}"
+                },
+                //图例名
+                legend: {
+                    data:[names[0]]
+                },
+                grid: {
+                    left: '3%',   //图表距边框的距离
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                //工具框，可以选择
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                //x轴信息样式
+                xAxis: {
+                    type: 'time',
+                    name:'时间',               //坐标轴名称
+                    nameLocation:"end",
+                    // boundaryGap: false,
+                    // data: ['12-01','12-02','12-03','12-04','12-05','12-05','12-06','12-07','12-08','12-09','12-10','12-11','12-12','12-13'],
+                    splitLine: {
+                        show: false
+                    },
+                    //x轴文字旋转
+                    axisLabel:{
+                        rotate:30,
+                        interval:0
+                    },
+                },
+
+                yAxis : [
+                    {
+                        type : 'category',
+                        name:'状态',
+                        data: ['需求分析','开发中','待联调','联调中','待测试','一轮测试中', '验证测试中','待上线'],
+                    }
+                ],
+                series: [
+                    {
+                        name:names[0],
+                        type:'line',
+                        symbol:'circle',
+                        symbolSize:6,
+                        itemStyle:{
+                            normal:{
+                                color:'red',
+                                borderColor:'black'  //拐点边框颜色
+                            }
+                        },
+                        data:data
+                    },
+                ]
+            };
+
+            myChart.setOption(option);
+        },function (res) {
+            alert("查询失败"+res);
+        });
+    // var data = [
+    //     {value:['2018/12/12 6:38:08', '开发中']},
+    //     { value:['2018/12/16 16:18:18', '联调中']},
+    //     { value:['2018/12/18 19:18:18', '一轮测试中']}
+    // ];
+</script>
+</body>  
+</html>
