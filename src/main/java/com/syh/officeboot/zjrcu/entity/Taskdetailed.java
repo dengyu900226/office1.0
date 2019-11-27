@@ -19,4 +19,5 @@ public class Taskdetailed {
     private String jkquestion;
     private String csquestion;
     private String update_time;
+    private String isdelay;
 }

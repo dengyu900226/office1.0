@@ -25,7 +25,7 @@ public interface TaskdetailedMapper {
     })
     List<Taskdetailed> alltaskdetailed();
 
-    @Select("select * from taskdetailed where qdname = #{qdname} and state != '已上线'")
+    @Select("select * from taskdetailed where qdname = #{qdname} and state not in ( '已上线','关停')")
     @Results({
             @Result(property = "xqid", column = "xqid"),
             @Result(property = "bgid", column = "bgid"),
@@ -40,6 +40,7 @@ public interface TaskdetailedMapper {
             @Result(property = "jkquestion", column = "jkquestion"),
             @Result(property = "csquestion", column = "csquestion"),
             @Result(property = "update_time", column = "update_time"),
+            @Result(property = "isdelay", column = "isdelay")
     })
     List<Taskdetailed> reqByname(@Param("qdname") String qdname);
 

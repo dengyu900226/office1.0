@@ -348,13 +348,15 @@
                 "{text:'待上线',value:'待上线'},{text:'已上线',value:'已上线'},{text:'关停',value:'关停'}," +
                 "{text:'暂缓测试',value:'暂缓测试'},{text:'待关停',value:'待关停'},{text:'需求分析',value:'需求分析'}," +
                 "{text:'开发中',value:'开发中'},{text:'待联调',value:'待联调'},{text:'联调中',value:'联调中'} ";
+            var isItems = "{text:'正常',value:'0'},{text:'延期',value:'1'}"
             $("#demo").append("<tr><th bgcolor='#EFEFEF'>需求单号</th><th bgcolor='#EFEFEF'>变更单号</th>" +
-                "<th bgcolor='#EFEFEF'>任务名称</th>" +
+                "<th bgcolor='#EFEFEF'>任务名</th>" +
                 str +
                 "<th bgcolor='#EFEFEF'  EditType='DropDownList' DataItems="+DataItems+">状态</th>" +
                 "<th bgcolor='#EFEFEF'  EditType='TextBox'>需求问题</th>" +
                 "<th bgcolor='#EFEFEF'  EditType='TextBox'>接口问题</th>" +
                 "<th bgcolor='#EFEFEF'  EditType='TextBox'>测试问题</th>" +
+                "<th bgcolor='#EFEFEF'  EditType='DropDownList' DataItems=isItems >是否延期</th>" +
                 "<th bgcolor='#EFEFEF'  style='display:none;'>开始时间</th>" +
                 "<th bgcolor='#EFEFEF'  style='display:none;'>结束时间</th>" +
                 "<th bgcolor='#EFEFEF'  style='display:none;'>更新时间</th>" +
