@@ -2290,16 +2290,21 @@ $("#research-user-logout").click(function(){
 function userLogout(){
 	$.ajax({
 		type : "post",
-		url : "logout.asp",
+		url : "/zjrc/logout",
 		dataType : "json",
+
 		success : function(data) {
-			
+            if("success" == data.result){
+                window.location = contextPath+"login.html";
+                return;
+            }
 		},
 		error : function() {
-			
+            alert("注销异常！");
+            window.location = contextPath+"login.html";
 		}
 	});
-	window.location = contextPath+"login.html";
+
 };
 
 /**

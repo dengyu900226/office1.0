@@ -1,7 +1,7 @@
 package com.syh.officeboot.zjrcu.entity;
 
 import lombok.Data;
-
+import java.sql.Timestamp;
 import java.io.Serializable;
 @Data
 public class MyUser implements Serializable {
@@ -11,4 +11,5 @@ public class MyUser implements Serializable {
     private String status;
     private int postid;
     private String detail;
+    private Timestamp intime;
 }

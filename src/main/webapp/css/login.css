@@ -18,7 +18,7 @@ input::-ms-reveal{display:none;}
 /*全部内容*/
 .research-logo-all {width:360px;height:485px;position:absolute;top:50%;left:50%;margin:-242px 0 0 -180px;z-index:99;}
 /*登录LOGO*/
-.research-logo {width:256px;height:84px;position:absolute;top:0;left:50%;margin:0 0 0 -128px;color:#fff;background:url(../../images/main/login_logo.png) no-repeat;overflow:hidden;}
+.research-logo {width:579px;height:84px;position:absolute;top:0;left:50%;margin:0 0 0 -316px;color:#fff;background:url(../../images/login_logo.png) no-repeat;overflow:hidden;}
 /*用户框+密码框*/
 .research-user-password {width:332px;border:1px solid #cdcdcd;background:#fff;position:absolute;top:140px;padding:20px 14px 16px 14px;}
 	.research-user-password li {height:38px;padding:6px;overflow:hidden;}
@@ -27,7 +27,7 @@ input::-ms-reveal{display:none;}
 		.research-user-password .research-title {font-size:26px;height:30px;line-height:30px;margin-bottom:14px;text-align:center;overflow:hidden;}
 		.research-user-password .research-user, .research-user-password .research-password, .research-user-password .research-code {position:relative;}
 			/*图标-人物-密码-验证码*/
-			.research-user-password .research-user i, .research-user-password .research-password i, .research-user-password .research-code i {position:absolute;top:7px;left:7px;width:36px;height:36px;line-height:36px;text-align:center;display:block;background:url(../../images/main/icon_yanfa.png) no-repeat;overflow:hidden;}
+			.research-user-password .research-user i, .research-user-password .research-password i, .research-user-password .research-code i {position:absolute;top:7px;left:7px;width:36px;height:36px;line-height:36px;text-align:center;display:block;background:url(../../images/icon_yanfa.png) no-repeat;overflow:hidden;}
 				.research-user-password .research-user .user {background-position:6px -29px;}
 				.research-user-password .research-password .password {background-position:-37px -29px;}
 				.research-user-password .research-code .code {background-position:-88px -29px;}
@@ -50,7 +50,7 @@ input::-ms-reveal{display:none;}
 		.research-user-password .research-forget {color:#606060;height:14px;line-height:14px;overflow:hidden;text-align:right;margin:-5px 0 0 0;}
 		/*错误提示*/
 		.research-user-password .research-error-prompt {color:#c3272b;height:14px;line-height:14px;overflow:hidden;display:none;}
-			.research-user-password .research-error-prompt i {position:static;width:14px;height:14px;display:block;float:left;background:url(../../images/main/icon_yanfa.png) no-repeat -226px -152px;margin:2px 3px 0 0;}
+			.research-user-password .research-error-prompt i {position:static;width:14px;height:14px;display:block;float:left;background:url(../../images/icon_yanfa.png) no-repeat -226px -152px;margin:2px 3px 0 0;}
 				.research-user-password .research-error-prompt {color:#c3272b;height:auto;line-height:16px;background:#fff;overflow:hidden;display:none;}
 					.research-user-password .research-error-prompt a {color:#c3272b;}
 				.research-user-password .research-error-prompt p {margin-left:17px;}
@@ -58,7 +58,7 @@ input::-ms-reveal{display:none;}
 			.research-user-password .error-open input {border:1px solid #c3272b;color:#c3272b;}
 			.research-user-password .error-open .research-error {display:block;}
 		/*删除图标*/
-		.research-user-password .research-del {width:13px;height:13px;overflow:hidden;display:block;position:absolute;top:19px;right:19px;background:url(../../images/main/icon_yanfa.png) no-repeat;background-position:-21px -186px;display:none;}
+		.research-user-password .research-del {width:13px;height:13px;overflow:hidden;display:block;position:absolute;top:19px;right:19px;background:url(../../images/icon_yanfa.png) no-repeat;background-position:-21px -186px;display:none;}
 			.research-user-password .research-del:hover {background-position:-44px -186px;cursor:pointer;}
 		.research-code .research-del {right:108px;}
 	.research-user-password .open {display:block;}
@@ -94,7 +94,7 @@ input::-ms-reveal{display:none;}
 	.forgetpassword-step .current {}
 		.forgetpassword-step .current span i {background-color:#007aff;}
 		.forgetpassword-step .current span h3 {color:#007aff;}
-		.forgetpassword-step .current .step-line {background-color:#007aff;background-image:url(../../images/main/icon_yanfa.png);background-repeat:no-repeat;background-position:0 -409px;}
+		.forgetpassword-step .current .step-line {background-color:#007aff;background-image:url(../../images/icon_yanfa.png);background-repeat:no-repeat;background-position:0 -409px;}
 	/*上一步*/
 	.forgetpassword-step .before {}
 		.forgetpassword-step .before span i {background-color:#a2cfff;}
@@ -128,7 +128,7 @@ input::-ms-reveal{display:none;}
 	/*错误信息提示*/
 	.forgetpassword-input .forgetpassword-error {width:260px;height:16px;line-height:16px;color:#c3272b;padding:0 0 0 85px;margin:-6px 5px 5px 0;overflow:hidden;display:none;}
 		.forgetpassword-input .open {display:block;}
-		.forgetpassword-input .forgetpassword-error i {position:static;width:14px;height:14px;display:block;float:left;background:url(../../images/main/icon_yanfa.png) no-repeat -226px -152px;margin:1px 3px 0 0;}
+		.forgetpassword-input .forgetpassword-error i {position:static;width:14px;height:14px;display:block;float:left;background:url(../../images/icon_yanfa.png) no-repeat -226px -152px;margin:1px 3px 0 0;}
 		.forgetpassword-input .forgetpassword-error p {margin-left:17px;}
 	/*满足要求*/
 	.forgetpassword-prompt {height:92px;margin-top:10px;overflow:hidden;}

@@ -1,6 +1,8 @@
 package com.syh.officeboot.zjrcu.entity;
 
 import lombok.Data;
+
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -19,5 +21,6 @@ public class Taskdetailed {
     private String jkquestion;
     private String csquestion;
     private String update_time;
-    private String isdelay;
+    private String kfDays;
+    private String kfNums;
 }
