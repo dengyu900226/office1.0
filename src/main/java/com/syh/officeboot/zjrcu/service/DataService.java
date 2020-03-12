@@ -93,6 +93,10 @@ public class DataService {
         return TMD.queryDevelopNum(qdName);
     }
 
+    public String queryHistogramNums(String qdName,String state1,String state2) {
+        return TMD.queryHistogramNums(qdName,state1,state2);
+    }
+
     public String queryAllTaskdetailed() {
         return JSON.toJSONString(TMD.alltaskdetailed());
     }

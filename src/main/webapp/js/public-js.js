@@ -1738,7 +1738,8 @@ function openTabPage(menu_no){
         var a = menu_no.split('|');
         menuNo = "files"
         menuUrl = getMenuUrl("http://"+ip+":8090/files.html?name="+a[1]+"&postid="+a[2],"1","1");
-        menuName = "详设";
+        menuName = "详设" +
+			"";
 	}else{
         menuUrl = getMenuUrl("http://"+ip+":8090/fileup.html","1","1");
         menuName = "数据源上传";
