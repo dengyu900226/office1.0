@@ -34,9 +34,9 @@
 <div class="main">
     <div id="pieone" class="quarter-div one">
     </div>
-    <div id="Histogram" class="quarter-div two"></div>
-    <div class="quarter-div three"></div>
-    <div class="quarter-div four"></div>
+    <div id="HistogramDev" class="quarter-div two"></div>
+    <div id="HistogramTest" class="quarter-div three"></div>
+    <div id="HistogramTotal" class="quarter-div four"></div>
 </div>
 </body>
 <script>
@@ -127,66 +127,78 @@
     }, function (res) {
         alert("失败" + res);
     });
-
-    var dom = document.getElementById("Histogram");
-    var myHistogram = echarts.init(dom);
-    var datas = [];
-    var kfNames = [];
-    var optionH = {
-        title: {
-            show: true,//显示策略，默认值true,可选为：true（显示） | false（隐藏）
-            text: '开发中任务',//主标题文本，'\n'指定换行
-        },
-        tooltip: {},
-        legend: {
-            orient: 'vertical',
-            left: 'left',
-            data: []
-        },
-        xAxis: {
-            data: kfNames,
-        },
-        yAxis: {},
-        series: [
-            {
-                data: datas,
-                type: "bar",
-                itemStyle: {
-                    normal: {
-                        color: function(params) {
-                            var colorList = [
-                                '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
-                                '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
-                                '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
-                            ];
-                            return colorList[params.dataIndex]
-                        },
-                        label: {
-                            show: true, //开启显示
-                            position: 'top', //在上方显示
-                            textStyle: { //数值样式
-                                color: 'black',
-                                fontSize: 16
+</script>
+<script>
+    function loadHistogram(myHistogram, URL, title) {
+        // var dom = document.getElementById("HistogramDev");
+        var myHistogram = echarts.init(myHistogram);
+        var datas = [];
+        var kfNames = [];
+        var optionH = {
+            title: {
+                show: true,//显示策略，默认值true,可选为：true（显示） | false（隐藏）
+                text: title,//主标题文本，'\n'指定换行
+            },
+            tooltip: {},
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: []
+            },
+            xAxis: {
+                data: kfNames,
+            },
+            yAxis: {},
+            series: [
+                {
+                    data: datas,
+                    type: "bar",
+                    itemStyle: {
+                        normal: {
+                            color: function (params) {
+                                var colorList = [
+                                    '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                                    '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD',
+                                    '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0'
+                                ];
+                                return colorList[params.dataIndex]
+                            },
+                            label: {
+                                show: true, //开启显示
+                                position: 'top', //在上方显示
+                                textStyle: { //数值样式
+                                    color: 'black',
+                                    fontSize: 16
+                                }
                             }
                         }
-                    }
-                },
+                    },
+                }
+            ]
+        };
+        // Vue.http.post('/data/queryKfNums',
+        Vue.http.post(URL,
+            {},
+            {emulateJSON: true}).then(function (res) {
+                var resdata = res.body;
+                for (var i = 0; i < resdata.length; i++) {
+                    kfNames.push(resdata[i].qdname);
+                    datas.push(resdata[i].nums);
+                }
+                optionH.legend.data = kfNames;
+                myHistogram.setOption(optionH);
+            }, function (res) {
+                alert("失败" + res);
             }
-        ]
-    };
-    Vue.http.post('/data/queryKfNums',
-        {},
-        {emulateJSON: true}).then(function (res) {
-            var resdata = res.body;
-            for (var i = 0; i < resdata.length; i++) {
-                kfNames.push(resdata[i].qdname);
-                datas.push(resdata[i].kfNums)
-            }
-            optionH.legend.data = kfNames;
-            myHistogram.setOption(optionH);
-        }, function (res) {
-            alert("失败" + res);
-        }
-    );
+        );
+    }
+</script>
+<script>
+    var dom = document.getElementById("HistogramTest");
+    $("#HistogramTest").load(loadHistogram(dom, "/data/queryTestNums", "测试中任务"));
+    var doc = document.getElementById("HistogramDev");
+    $("#HistogramDev").load(loadHistogram(doc, "/data/queryKfNums", "开发中任务"));
+    var docu = document.getElementById("HistogramTotal");
+    $("#HistogramDev").load(loadHistogram(docu, "/data/queryTotleNums", "测试+开发任务"));
 </script>
 </html>
