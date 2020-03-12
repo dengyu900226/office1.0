@@ -166,15 +166,15 @@ public class DataController {
             currentTime = date.getTime();
             if (!list.contains(state)) {//非需求分析
                 day = workDays(updateTime, currentTime);
-                if (day >= 5 && (kfStart + kfDays < currentTime)) {
+                if (day >= 5 && (kfStart + kfDays < currentTime) && !abnormalallTask.contains(task)) {
                     abnormalallTask.add(task);
                 }
-                if (kfStart + kfDays < currentTime) {
+                if (kfStart + kfDays < currentTime && !abnormalallTask.contains(task)) {
                     abnormalallTask.add(task);
                 }
             } else {//需求分析
                 day = workDays(initTime, currentTime);
-                if (day >= 5) {
+                if (day >= 5 && !abnormalallTask.contains(task)) {
                     abnormalallTask.add(task);
                 }
             }
@@ -322,9 +322,47 @@ public class DataController {
         for (MyUser user : list) {
             map = new HashMap<String, Object>();
             qdname = user.getDetail();
-            kfNums = ds.queryKNums(qdname);
-            map.put("qdname",qdname);
-            map.put("kfNums",kfNums);
+            kfNums = ds.queryHistogramNums(qdname, "开发中", "联调中");
+            map.put("qdname", qdname);
+            map.put("nums", kfNums);
+            reList.add(map);
+        }
+        return JSON.toJSONString(reList);
+    }
+
+    @RequestMapping(value = "/queryTestNums")
+    @ResponseBody
+    public String queryTestNums(HttpServletRequest request) {
+        List<MyUser> list = UM.getUserNames();
+        List<Map<String, Object>> reList = new ArrayList<Map<String, Object>>();
+        String qdname = "", testNums = "";
+        Map<String, Object> map = null;
+        for (MyUser user : list) {
+            map = new HashMap<String, Object>();
+            qdname = user.getDetail();
+            testNums = ds.queryHistogramNums(qdname, "一轮测试中", "验证测试中");
+            map.put("qdname", qdname);
+            map.put("nums", testNums);
+            reList.add(map);
+        }
+        return JSON.toJSONString(reList);
+    }
+
+    @RequestMapping(value = "/queryTotleNums")
+    @ResponseBody
+    public String queryTotleNums(HttpServletRequest request) {
+        List<MyUser> list = UM.getUserNames();
+        List<Map<String, Object>> reList = new ArrayList<Map<String, Object>>();
+        String qdname = "", testNums = "", kfNums = "";
+        ;
+        Map<String, Object> map = null;
+        for (MyUser user : list) {
+            map = new HashMap<String, Object>();
+            qdname = user.getDetail();
+            kfNums = ds.queryHistogramNums(qdname, "开发中", "联调中");
+            testNums = ds.queryHistogramNums(qdname, "一轮测试中", "验证测试中");
+            map.put("qdname", qdname);
+            map.put("nums", Integer.parseInt(testNums) + Integer.parseInt(kfNums));
             reList.add(map);
         }
         return JSON.toJSONString(reList);
