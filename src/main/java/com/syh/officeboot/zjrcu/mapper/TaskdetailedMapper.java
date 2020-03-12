@@ -90,11 +90,15 @@ public interface TaskdetailedMapper {
     @Insert("insert into taskdetailed values(#{xqid},#{bgid},#{taskname},#{begintime},#{endtime},#{ywname},#{hdname},#{qdname},#{state},#{xqquestion},#{jkquestion},#{csquestion},now(),#{kfDays})")
     int addOneTask(Taskdetailed taskdetailed);
 
-//    @Select("select * from taskdetailed where state = #{state} order by qdname")
-    @Select("select count(*) as kfNums from taskdetailed where state = '开发中' and qdname = #{qdname}")
+    @Select("select count(*) as kfNums from taskdetailed where state in ('开发中','联调中') and qdname = #{qdname}")
     @Results({
             @Result(property = "kfNums", column = "kfNums"),
     })
     String queryDevelopNum(@Param("qdname") String qdname);
 
+    @Select("select count(*) as kfNums from taskdetailed where state in (#{state1},#{state2}) and qdname = #{qdname}")
+    @Results({
+            @Result(property = "kfNums", column = "kfNums"),
+    })
+    String queryHistogramNums(@Param("qdname") String qdname,@Param("state1") String state1,@Param("state2") String state2);
 }
