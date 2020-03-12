@@ -26,14 +26,14 @@ function onLogin() {
     } else {
         $(".research-error-prompt").removeClass("open");
     }
-    if ($.trim(checkcode.val()) == "" || $.trim(checkcode.val()) == "请输入验证码") {
-        $(".research-error-prompt").addClass("open");
-        $(".research-error-prompt > p").html("请输入验证码");
-        $(".research-code .research-error").focus();
-        return;
-    } else {
-        $(".research-error-prompt").removeClass("open");
-    }
+    // if ($.trim(checkcode.val()) == "" || $.trim(checkcode.val()) == "请输入验证码") {
+    //     $(".research-error-prompt").addClass("open");
+    //     $(".research-error-prompt > p").html("请输入验证码");
+    //     $(".research-code .research-error").focus();
+    //     return;
+    // } else {
+    //     $(".research-error-prompt").removeClass("open");
+    // }
     if (onLogin.state == false) {
         return;
     }
@@ -100,7 +100,7 @@ $(document).ready(function () {
         onLogin();
     });
     //点击登录（键盘回车事件）
-    $("#checkcode").keydown(function (event) {
+    $("#password").keydown(function (event) {
         if (event.keyCode == 13) {
             onLogin();
         }

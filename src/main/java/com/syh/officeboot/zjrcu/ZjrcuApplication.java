@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan
 @EnableTransactionManagement
 public class ZjrcuApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ZjrcuApplication.class, args);
     }

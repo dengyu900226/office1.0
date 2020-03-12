@@ -3,9 +3,8 @@ package com.syh.officeboot.zjrcu.service;
 import com.alibaba.fastjson.JSON;
 import com.syh.officeboot.zjrcu.entity.Statetrack;
 import com.syh.officeboot.zjrcu.entity.Taskdetailed;
-import com.syh.officeboot.zjrcu.mapper.StatetrackMapper;
-import com.syh.officeboot.zjrcu.mapper.TaskbasicMapper;
-import com.syh.officeboot.zjrcu.mapper.TaskdetailedMapper;
+import com.syh.officeboot.zjrcu.entity.MyUser;
+import com.syh.officeboot.zjrcu.mapper.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +26,8 @@ public class DataService {
     StatetrackMapper STM;
     @Autowired
     TaskbasicMapper TM;
+    @Autowired
+    UserMapper UM;
 
     public void createXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String type = request.getParameter("type");
@@ -84,16 +85,40 @@ public class DataService {
         return JSON.toJSONString(TM.queryAllTaskbasic());
     }
 
+    public String queryKfUserName() {
+        return JSON.toJSONString(UM.getUserNames());
+    }
+
+    public String queryKNums(String qdName) {
+        return TMD.queryDevelopNum(qdName);
+    }
+
+    public String queryHistogramNums(String qdName,String state1,String state2) {
+        return TMD.queryHistogramNums(qdName,state1,state2);
+    }
+
     public String queryAllTaskdetailed() {
         return JSON.toJSONString(TMD.alltaskdetailed());
+    }
+
+    public List<MyUser> querUserData() {
+        return UM.getUserData();
     }
 
     public String reqByname(String qdname) {
         return JSON.toJSONString(TMD.reqByname(qdname));
     }
 
-    public int updateOneTask(String xqquestion, String jkquestion, String csquestion, String xqid, String state) {
-        return TMD.updateOneTask(xqquestion, jkquestion, csquestion, xqid, state);
+    public String reqByState(String state) {
+        return JSON.toJSONString(TMD.reqByState(state));
+    }
+
+    public String reqByNameState(String state, String qdname) {
+        return JSON.toJSONString(TMD.reqByNameState(state, qdname));
+    }
+
+    public int updateOneTask(String xqquestion, String jkquestion, String csquestion, String xqid, String state, String qdname) {
+        return TMD.updateOneTask(xqquestion, jkquestion, csquestion, xqid, state, qdname);
     }
 
     public int addOneTask(Taskdetailed taskdetailed) {
